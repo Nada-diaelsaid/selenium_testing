@@ -18,9 +18,22 @@ async function openGoogleInChrome() {
     await driver.sleep(3000);
 
     // close the driver
-    await driver.quit()
+    // await driver.quit()
+    
+    try {
+        // We will press "Accept all" button. Using the button id (CSS Selector)
+        // const acceptAllButton = await driver.findElement({css: '#L2AGLb'});
+        // await acceptAllButton.click();
+        // We will press "Accept all" button. Using the button XPath
+        const acceptAllButton = await driver.findElement({xpath: '//*[@id="L2AGLb"]'});
+        await acceptAllButton.click();
+        console.log("Accepted all cookies");
+    } catch (error) {
+        console.error("Error accepting all cookies:", error.message);
+    }
 }
 
+// Run the function
 openGoogleInChrome();
 
 // To run the script, use the command: node selenium.js
