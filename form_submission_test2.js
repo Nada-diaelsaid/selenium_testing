@@ -2,8 +2,8 @@
 const { Builder, until } = require('selenium-webdriver');
 
 /* 
-    Test 1 Positive test:
-    - Login with valid credentials
+    Test 1 Negative test:
+    - Login with invalid password
     - Verify the success message is displayed
     - Close the driver
 */
@@ -19,7 +19,8 @@ async function formSubmissionTest() {
 
     // Fill in the username and password fields
     await driver.findElement({css: '#username'}).sendKeys('tomsmith');
-    await driver.findElement({css: '#password'}).sendKeys('SuperSecretPassword!');
+    // Wrong password. Should throw an error.
+    await driver.findElement({css: '#password'}).sendKeys('SuperSecretPassword');
 
     // Click the login button
     await driver.findElement({css: 'button[type="submit"]'}).click();
@@ -33,22 +34,20 @@ async function formSubmissionTest() {
     // We will wait for the new page to load and then verify the success message.
     let currentUrl = await driver.getCurrentUrl();
     console.log('Current URL:', currentUrl);
-    if (currentUrl !== 'https://the-internet.herokuapp.com/secure') {
-        console.error('Login failed');
-    }
-    else {
+    try {
         let successMessage = await driver.findElement({xpath: './/*[@id="flash-messages"]'});
         await driver.wait(until.elementIsVisible(successMessage), 2000);
 
-        console.log('Login successful', await successMessage.getText());
+        console.log('Login Failed', await successMessage.getText());
+        
         // take screenshots:
         await driver.takeScreenshot().then(function(image) {
-            require('fs').writeFileSync('screenshot_login_successful.png', image, 'base64');
+            require('fs').writeFileSync('screenshot.png', image, 'base64');
         });
-
-        // Press logout button
-        await driver.findElement({xpath: '//*[@id="content"]/div/a'}).click();
     
+    }
+    catch (error) {
+        console.error('Error: ', error.message);
     }
     
     // close the driver
