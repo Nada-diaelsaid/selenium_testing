@@ -26,3 +26,5 @@ XPath is a language that navigates through elements and attributes in XML docume
 | Enables selection of elements based on text context | Allows forward DOM traversal only |
 
 ​Choosing between them depends on the specific need of your test case and the complexity ​of the element selections required.
+
+For more info about selectors: https://www.guru99.com/xpath-selenium.html
