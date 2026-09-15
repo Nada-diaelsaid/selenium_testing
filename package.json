@@ -9,6 +9,7 @@
   "keywords": [],
   "type": "commonjs",
   "dependencies": {
+    "csv-parser": "^3.2.1",
     "selenium-webdriver": "^4.49.0"
   }
 }
